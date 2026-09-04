@@ -10,6 +10,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(app
     src/main.cpp
+    src/game.cpp
+    src/window.cpp
     external/glad/src/glad.c
 )
 
@@ -35,6 +37,8 @@ find_program(CLANG_FORMAT clang-format REQUIRED)
 
 set(FORMAT_SOURCES
     ${CMAKE_SOURCE_DIR}/src/main.cpp
+    ${CMAKE_SOURCE_DIR}/src/game.cpp
+    ${CMAKE_SOURCE_DIR}/src/window.cpp
 )
 
 add_custom_target(format

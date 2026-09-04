@@ -2,10 +2,11 @@
 
 
 
+#include "game.hpp"
 int main() {
-    return 0;
+    Game::Game game;
+    game.run();
 }
-
 
 
 

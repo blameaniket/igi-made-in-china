@@ -1,8 +1,8 @@
-BasedOnStyle: LLVM
+BasedOnStyle: WebKit
 Language: Cpp
 IndentWidth: 4
 DerivePointerAlignment: false
-PointerAlignment: Left
+PointerAlignment: Right
 BreakBeforeBraces: Attach
 AllowShortFunctionsOnASingleLine: false
 MaxEmptyLinesToKeep: 6
