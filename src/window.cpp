@@ -3,15 +3,17 @@
 
 
 #include <glad/glad.h>
-#include <windows.h>
 #include <GLFW/glfw3.h>
 
+#ifdef _WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
+#include <windows.h>
 #include <GLFW/glfw3native.h>
 #include <dwmapi.h>
 
 #ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
 #define DWMWA_USE_IMMERSIVE_DARK_MODE 20
+#endif
 #endif
 
 #include <stdbool.h>
@@ -25,11 +27,12 @@
 
 namespace Game {
 
+
+
 Window::Window(int width, int height, const char *title)
     : m_win_width(width)
     , m_win_height(height)
-    , m_win_title(title)
-    , m_win_handle(nullptr) {
+    , m_win_title(title) {
 }
 
 Window::~Window() {
@@ -52,15 +55,15 @@ void Window::init_window() {
         exit(EXIT_FAILURE);
     }
 
+#ifdef _WIN32
     HWND hwnd = glfwGetWin32Window(m_win_handle);
-
-    // 3. Enable Dark Mode Title Bar via DWM API
     BOOL useDarkMode = TRUE;
     DwmSetWindowAttribute(
         hwnd,
         DWMWA_USE_IMMERSIVE_DARK_MODE,
         &useDarkMode,
         sizeof(useDarkMode));
+#endif
 
     glfwMakeContextCurrent(m_win_handle);
     glfwSwapInterval(1); // Enable V-Sync by default
@@ -72,6 +75,7 @@ void Window::init_window() {
 }
 
 bool Window::window_should_close() {
+    if (m_win_handle == NULL) return true;
     return glfwWindowShouldClose(m_win_handle);
 }
 
@@ -83,7 +87,6 @@ void Window::window_poll_events() {
 void Window::window_swap_buffers() {
     glfwSwapBuffers(m_win_handle);
 }
-
 
 }
 
