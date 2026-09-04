@@ -10,3 +10,4 @@ KeepEmptyLines:
   AtEndOfFile: true     
   AtStartOfBlock: true  
   AtStartOfFile: true   
+SortIncludes: Never
