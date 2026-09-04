@@ -16,7 +16,7 @@ struct GameContext {
     const unsigned int window_height = factor*9;
 
     Color background_color = hex_to_rgb("#111111");
-    Color rectangle_color = hex_to_rgb("#f69697");
+    Color rectangle_color  = hex_to_rgb("#f69697");
 };
 
 
@@ -30,8 +30,8 @@ public:
 
 private:
     GameContext m_game_ctx;
-    Window     m_window;
-    Renderer   m_renderer;
+    Window      m_window;
+    Renderer    m_renderer;
 };
 
 } // namespace Game

@@ -11,8 +11,6 @@ typedef struct Vector2 {
     float x, y;
 } Vector2;
 
-
-
 namespace Game {
 
 struct RendererContext {
