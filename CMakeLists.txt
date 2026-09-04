@@ -18,21 +18,27 @@ add_executable(app
     external/glad/src/glad.c
 )
 
-find_package(OpenGL REQUIRED)
-find_package(glfw3 CONFIG REQUIRED)
-find_package(Freetype REQUIRED)
-
 target_include_directories(app PRIVATE
     src
     external/glad/include
 )
 
+find_package(OpenGL REQUIRED)
+find_package(glfw3 CONFIG REQUIRED)
+find_package(Freetype REQUIRED)
+find_package(glm CONFIG REQUIRED)
+
 target_link_libraries(app PRIVATE
     glfw
     OpenGL::GL
     Freetype::Freetype
-    dwmapi
+    glm::glm
 )
+
+if(WIN32)
+    target_link_libraries(app PRIVATE dwmapi)
+endif()
+
 
 target_compile_definitions(app PRIVATE DEBUG)
 

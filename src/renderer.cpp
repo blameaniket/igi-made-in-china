@@ -1,4 +1,6 @@
 
+
+
 #include <glad/glad.h>
 #include <cstddef>
 
@@ -18,8 +20,7 @@ Renderer::Renderer(int width, int height)
           0.0f,
           static_cast<float>(width),
           static_cast<float>(height),
-          0.0f)) {
-}
+          0.0f)) {}
 
 Renderer::~Renderer() {
 }

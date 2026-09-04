@@ -9,9 +9,11 @@ namespace Game {
 Game::Game(const GameContext &game_ctx)
     : m_game_ctx(game_ctx)
     , m_window(game_ctx.window_width, game_ctx.window_height)
-    , m_renderer(game_ctx.window_width, game_ctx.window_height) {
-}
+    , m_renderer(game_ctx.window_width, game_ctx.window_height) {}
 
+
+Game::~Game() {
+}
 
 void Game::run() {
     m_window.init_window();
@@ -36,9 +38,6 @@ void Game::run() {
     m_window.close_window();
 }
 
-
-Game::~Game() {
-}
 
 }
 

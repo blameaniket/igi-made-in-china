@@ -1,4 +1,5 @@
 
+
 #pragma once
 
 #include <glad/glad.h>
@@ -37,21 +38,21 @@ public:
     ~Renderer();
 
 public:
-    RendererContext g_renderer_ctx;
-    glm::mat4 projection;
-
-    GLuint compile_shader(GLenum type, const char *src);
-    GLuint create_program(const char *vertex_shader, const char *fragment_shader);
-
     void renderer_init();
     void renderer_shutdown();
     void clear_screen(const Color &color);
     void draw_rectangle(const RendererRectangle &rectangle);
+
+private:
+    GLuint compile_shader(GLenum type, const char *src);
+    GLuint create_program(const char *vertex_shader, const char *fragment_shader);
+
+private:
+    RendererContext g_renderer_ctx;
+    glm::mat4 projection;
+
 };
 
+
 }
-
-
-
-
 

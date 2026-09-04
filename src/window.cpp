@@ -29,8 +29,7 @@ namespace Game {
 
 Window::Window(int width, int height)
     : m_win_width(width)
-    , m_win_height(height) {
-}
+    , m_win_height(height) {}
 
 Window::~Window() {
 }

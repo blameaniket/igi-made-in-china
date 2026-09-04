@@ -3,7 +3,6 @@
 
 static constexpr const char *vertex_shader_source = R"(
 #version 330 core
-
 layout(location = 0) in vec2 aPos;
 
 uniform mat4 projection;
@@ -18,9 +17,7 @@ void main()
 
 static constexpr const char *fragment_shader_source = R"(
 #version 330 core
-
 out vec4 FragColor;
-
 uniform vec4 color;
 
 void main()
