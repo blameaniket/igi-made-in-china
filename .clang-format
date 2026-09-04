@@ -11,3 +11,4 @@ KeepEmptyLines:
   AtStartOfBlock: true  
   AtStartOfFile: true   
 SortIncludes: Never
+AllowShortIfStatementsOnASingleLine: WithoutElse
