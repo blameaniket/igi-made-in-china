@@ -30,6 +30,7 @@ target_link_libraries(app PRIVATE
     glfw
     OpenGL::GL
     Freetype::Freetype
+    dwmapi
 )
 
 target_compile_definitions(app PRIVATE DEBUG)

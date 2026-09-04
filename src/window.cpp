@@ -1,7 +1,19 @@
 
 
+
+
 #include <glad/glad.h>
+#include <windows.h>
 #include <GLFW/glfw3.h>
+
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>
+#include <dwmapi.h>
+
+#ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
+#define DWMWA_USE_IMMERSIVE_DARK_MODE 20
+#endif
+
 #include <stdbool.h>
 #include <stdlib.h>
 
@@ -32,7 +44,6 @@ void Window::init_window() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // for raylib floating window
 
     m_win_handle = glfwCreateWindow(m_win_width, m_win_height, m_win_title, NULL, NULL);
     if (!m_win_handle) {
@@ -40,6 +51,16 @@ void Window::init_window() {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
+
+    HWND hwnd = glfwGetWin32Window(m_win_handle);
+
+    // 3. Enable Dark Mode Title Bar via DWM API
+    BOOL useDarkMode = TRUE;
+    DwmSetWindowAttribute(
+        hwnd,
+        DWMWA_USE_IMMERSIVE_DARK_MODE,
+        &useDarkMode,
+        sizeof(useDarkMode));
 
     glfwMakeContextCurrent(m_win_handle);
     glfwSwapInterval(1); // Enable V-Sync by default
