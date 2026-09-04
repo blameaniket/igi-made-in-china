@@ -12,3 +12,4 @@ KeepEmptyLines:
   AtStartOfFile: true   
 SortIncludes: Never
 AllowShortIfStatementsOnASingleLine: WithoutElse
+AlignConsecutiveDeclarations: true
