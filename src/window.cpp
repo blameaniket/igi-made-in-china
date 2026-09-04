@@ -28,7 +28,6 @@
 namespace Game {
 
 
-
 Window::Window(int width, int height, const char *title)
     : m_win_width(width)
     , m_win_height(height)
@@ -87,6 +86,11 @@ void Window::window_poll_events() {
 void Window::window_swap_buffers() {
     glfwSwapBuffers(m_win_handle);
 }
+
+
+void Window::close_window() {
+}
+
 
 }
 

@@ -1,7 +1,6 @@
 
 
 #include "game.hpp"
-#include <iostream>
 
 
 namespace Game {
@@ -13,8 +12,6 @@ Game::Game(const GameConfig &game_cfg)
 
 
 void Game::run() {
-    std::cout << "game is running" << std::endl;
-
     m_window.init_window();
     m_renderer.renderer_init();
 
@@ -24,6 +21,7 @@ void Game::run() {
     }
 
     m_renderer.renderer_shutdown();
+    m_window.close_window();
 }
 
 

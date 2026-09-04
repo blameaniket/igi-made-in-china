@@ -13,8 +13,11 @@
 
 #define SECOND 1000000000L
 
+
+
 static struct timespec time_diff(struct timespec cur, struct timespec old);
 static int indent = 0;
+
 
 static void print_indent(FILE *file) {
     for (int i = 0; i < indent; i++) {

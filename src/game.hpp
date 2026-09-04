@@ -11,7 +11,7 @@ namespace Game {
 struct GameConfig {
     const unsigned int window_width = 800;
     const unsigned int window_height = 600;
-    const char        *window_title = "project igi: made in china";
+    const char *window_title = "project igi: made in china";
 };
 
 
