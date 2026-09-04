@@ -12,6 +12,8 @@ add_executable(app
     src/main.cpp
     src/game.cpp
     src/window.cpp
+    src/renderer.cpp
+    src/log.cpp
     external/glad/src/glad.c
 )
 
@@ -39,6 +41,8 @@ set(FORMAT_SOURCES
     ${CMAKE_SOURCE_DIR}/src/main.cpp
     ${CMAKE_SOURCE_DIR}/src/game.cpp
     ${CMAKE_SOURCE_DIR}/src/window.cpp
+    ${CMAKE_SOURCE_DIR}/src/renderer.cpp
+    ${CMAKE_SOURCE_DIR}/src/log.cpp
 )
 
 add_custom_target(format

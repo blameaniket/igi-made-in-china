@@ -3,27 +3,30 @@
 
 #pragma once
 
-#include <string>
+#include <GLFW/glfw3.h>
 
 
-namespace Genesis {
+namespace Game {
 
 class Window {
 public:
-    Window(int width, int height, std::string title);
+    Window(int width, int height, const char *title);
     ~Window();
 
+public:
     void init_window();
     void close_window();
+    bool window_should_close();
+    void window_poll_events();
+    void window_swap_buffers();
 
 private:
     const unsigned int m_win_width, m_win_height;
-    const std::string m_win_title;
+    const char *m_win_title;
+    GLFWwindow *m_win_handle;
 };
 
 }
-
-
 
 
 
