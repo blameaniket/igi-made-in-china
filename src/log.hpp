@@ -1,8 +1,7 @@
 
 
+#pragma once
 
-#ifndef LOG_HPP
-#define LOG_HPP
 
 
 void log_error(const char *const fmt, ...);
@@ -15,7 +14,6 @@ void log_append_debug(const char *const fmt, ...);
 void log_append_info(const char *const fmt, ...);
 
 
-#endif // LOG_HPP
 
 
 
