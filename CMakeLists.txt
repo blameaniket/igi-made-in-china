@@ -21,18 +21,18 @@ add_executable(app
 target_include_directories(app PRIVATE
     src
     external/glad/include
+    ${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-linux/include
 )
+
 
 find_package(OpenGL REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(Freetype REQUIRED)
-find_package(glm CONFIG REQUIRED)
 
 target_link_libraries(app PRIVATE
     glfw
     OpenGL::GL
     Freetype::Freetype
-    glm::glm
 )
 
 if(WIN32)

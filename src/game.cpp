@@ -23,13 +23,13 @@ void Game::run() {
         m_window.window_poll_events();
         m_renderer.clear_screen(m_game_ctx.background_color);
 
-        m_renderer.draw_rectangle({
-            .x = 100,
-            .y = 100,
-            .width = 200,
-            .height = 100,
-            .shape_color = m_game_ctx.rectangle_color,
-        });
+        // m_renderer.draw_rectangle({
+        //     .x = 100,
+        //     .y = 100,
+        //     .width = 200,
+        //     .height = 100,
+        //     .shape_color = m_game_ctx.rectangle_color,
+        // });
 
         m_window.window_swap_buffers();
     }

@@ -5,14 +5,17 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <windows.h>
 
+#ifdef _WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
+
+#include <windows.h>
 #include <dwmapi.h>
 
 #ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
 #define DWMWA_USE_IMMERSIVE_DARK_MODE 20
+#endif
 #endif
 
 #include <stdbool.h>
@@ -29,7 +32,8 @@ namespace Game {
 
 Window::Window(int width, int height)
     : m_win_width(width)
-    , m_win_height(height) {}
+    , m_win_height(height)
+    , m_win_handle(nullptr) {}
 
 Window::~Window() {
 }
@@ -51,13 +55,18 @@ void Window::init_window() {
         exit(EXIT_FAILURE);
     }
 
+#ifdef _WIN32
     HWND hwnd = glfwGetWin32Window(m_win_handle);
+
     BOOL useDarkMode = TRUE;
+
     DwmSetWindowAttribute(
         hwnd,
         DWMWA_USE_IMMERSIVE_DARK_MODE,
         &useDarkMode,
-        sizeof(useDarkMode));
+        sizeof(useDarkMode)
+    );
+#endif
 
     glfwMakeContextCurrent(m_win_handle);
     glfwSwapInterval(1); // Enable V-Sync by default
