@@ -11,7 +11,7 @@ namespace Game {
 
 class Window {
 public:
-    Window(int width, int height, const char *title);
+    Window(int width, int height);
     ~Window();
 
 public:
@@ -23,7 +23,6 @@ public:
 
 private:
     const unsigned int m_win_width, m_win_height;
-    const char        *m_win_title;
     GLFWwindow        *m_win_handle;
 };
 

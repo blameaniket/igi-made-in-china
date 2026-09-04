@@ -1,15 +1,24 @@
 
 #include <glad/glad.h>
 #include <cstddef>
-#include <cstring>
+
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "renderer.hpp"
 #include "shader.hpp"
 #include "log.hpp"
+#include "utils.hpp"
 
 
 namespace Game {
 
-Renderer::Renderer() {
+Renderer::Renderer(int width, int height)
+    : projection(glm::ortho(
+          0.0f,
+          static_cast<float>(width),
+          static_cast<float>(height),
+          0.0f)) {
 }
 
 Renderer::~Renderer() {
@@ -61,9 +70,15 @@ void Renderer::renderer_init() {
     g_renderer_ctx.rectangle_location = glGetUniformLocation(g_renderer_ctx.shader, "rect");
     g_renderer_ctx.color_location = glGetUniformLocation(g_renderer_ctx.shader, "color");
 
-    static const float
-        unit_quad[] = { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-            0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f };
+    static const float unit_quad[] = {
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+
+        0.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f
+    };
 
 
     glGenVertexArrays(1, &g_renderer_ctx.vao);
@@ -74,8 +89,7 @@ void Renderer::renderer_init() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(unit_quad), unit_quad, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(
-        0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -88,11 +102,37 @@ void Renderer::renderer_shutdown() {
         glDeleteProgram(g_renderer_ctx.shader);
     }
 
-    memset(&g_renderer_ctx, 0, sizeof(g_renderer_ctx));
+    g_renderer_ctx = {};
 }
 
-void Renderer::draw_rectangle(RendererRectangle rectangle) {
+void Renderer::draw_rectangle(const RendererRectangle &rectangle) {
     if (rectangle.width <= 0.0f || rectangle.height <= 0.0f) return;
+
+    glUseProgram(g_renderer_ctx.shader);
+    glUniformMatrix4fv(g_renderer_ctx.projection_location, 
+            1, GL_FALSE, // single matrix and dont transpose the value
+            &projection[0][0]);
+
+    glUniform4f(g_renderer_ctx.rectangle_location, 
+            rectangle.x, rectangle.y,
+            rectangle.width, rectangle.height);
+
+    glUniform4f(g_renderer_ctx.color_location,
+            rectangle.shape_color.r,
+            rectangle.shape_color.g,
+            rectangle.shape_color.b,
+            rectangle.shape_color.alpha);
+
+    glBindVertexArray(g_renderer_ctx.vao);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
+    glUseProgram(0);
+}
+
+
+void Renderer::clear_screen(const Color &color) {
+    glClearColor(color.r, color.g, color.b, color.alpha);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 }

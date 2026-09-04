@@ -14,6 +14,7 @@ add_executable(app
     src/window.cpp
     src/renderer.cpp
     src/log.cpp
+    src/utils.cpp
     external/glad/src/glad.c
 )
 

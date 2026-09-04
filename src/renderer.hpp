@@ -2,15 +2,15 @@
 #pragma once
 
 #include <glad/glad.h>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include "utils.hpp"
 
 
 typedef struct Vector2 {
     float x, y;
 } Vector2;
 
-typedef struct Color {
-    float r, g, b, alpha;
-} Color;
 
 
 namespace Game {
@@ -35,18 +35,20 @@ struct RendererRectangle {
 
 class Renderer {
 public:
-    Renderer();
+    Renderer(int width, int height);
     ~Renderer();
 
 public:
     RendererContext g_renderer_ctx;
+    glm::mat4 projection;
 
     GLuint compile_shader(GLenum type, const char *src);
     GLuint create_program(const char *vertex_shader, const char *fragment_shader);
 
     void renderer_init();
     void renderer_shutdown();
-    void draw_rectangle(RendererRectangle rectangle);
+    void clear_screen(const Color &color);
+    void draw_rectangle(const RendererRectangle &rectangle);
 };
 
 }

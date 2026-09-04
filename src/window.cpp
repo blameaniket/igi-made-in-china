@@ -5,15 +5,14 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#ifdef _WIN32
-#define GLFW_EXPOSE_NATIVE_WIN32
 #include <windows.h>
+
+#define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 #include <dwmapi.h>
 
 #ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
 #define DWMWA_USE_IMMERSIVE_DARK_MODE 20
-#endif
 #endif
 
 #include <stdbool.h>
@@ -28,10 +27,9 @@
 namespace Game {
 
 
-Window::Window(int width, int height, const char *title)
+Window::Window(int width, int height)
     : m_win_width(width)
-    , m_win_height(height)
-    , m_win_title(title) {
+    , m_win_height(height) {
 }
 
 Window::~Window() {
@@ -47,14 +45,13 @@ void Window::init_window() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    m_win_handle = glfwCreateWindow(m_win_width, m_win_height, m_win_title, NULL, NULL);
+    m_win_handle = glfwCreateWindow(m_win_width, m_win_height, "project igi: made in china", NULL, NULL);
     if (!m_win_handle) {
         log_error("failed to create glfw window\n");
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
 
-#ifdef _WIN32
     HWND hwnd = glfwGetWin32Window(m_win_handle);
     BOOL useDarkMode = TRUE;
     DwmSetWindowAttribute(
@@ -62,7 +59,6 @@ void Window::init_window() {
         DWMWA_USE_IMMERSIVE_DARK_MODE,
         &useDarkMode,
         sizeof(useDarkMode));
-#endif
 
     glfwMakeContextCurrent(m_win_handle);
     glfwSwapInterval(1); // Enable V-Sync by default
