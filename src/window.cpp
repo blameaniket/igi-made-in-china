@@ -1,10 +1,8 @@
 
 
 
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
 
 #ifdef _WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
@@ -29,72 +27,96 @@
 
 namespace Game {
 
+    Window::Window(int width, int height)
+        : m_win_width(width)
+          , m_win_height(height)
+          , m_win_handle(nullptr)
+          , close(false) {}
 
-Window::Window(int width, int height)
-    : m_win_width(width)
-    , m_win_height(height)
-    , m_win_handle(nullptr) {}
-
-Window::~Window() {
-}
-
-void Window::init_window() {
-    if (!glfwInit()) {
-        log_error("failed to initialize glfw\n");
-        exit(EXIT_FAILURE);
+    Window::~Window() {
     }
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    void Window::init_window() {
+        if (!glfwInit()) {
+            log_error("failed to initialize glfw\n");
+            exit(EXIT_FAILURE);
+        }
 
-    m_win_handle = glfwCreateWindow(m_win_width, m_win_height, "project igi: made in china", NULL, NULL);
-    if (!m_win_handle) {
-        log_error("failed to create glfw window\n");
-        glfwTerminate();
-        exit(EXIT_FAILURE);
-    }
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+        m_win_handle = glfwCreateWindow(m_win_width, m_win_height, "project igi: made in china", NULL, NULL);
+        if (!m_win_handle) {
+            log_error("failed to create glfw window\n");
+            glfwTerminate();
+            exit(EXIT_FAILURE);
+        }
 
 #ifdef _WIN32
-    HWND hwnd = glfwGetWin32Window(m_win_handle);
+        HWND hwnd = glfwGetWin32Window(m_win_handle);
+        BOOL useDarkMode = TRUE;
 
-    BOOL useDarkMode = TRUE;
-
-    DwmSetWindowAttribute(
-        hwnd,
-        DWMWA_USE_IMMERSIVE_DARK_MODE,
-        &useDarkMode,
-        sizeof(useDarkMode)
-    );
+        DwmSetWindowAttribute(
+                hwnd,
+                DWMWA_USE_IMMERSIVE_DARK_MODE,
+                &useDarkMode,
+                sizeof(useDarkMode));
 #endif
 
-    glfwMakeContextCurrent(m_win_handle);
-    glfwSwapInterval(1); // Enable V-Sync by default
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        log_error("Failed to initialize GLAD OpenGL loader\n");
-        exit(EXIT_FAILURE);
+        {
+            /* center window
+             * first, get total monitors
+             */
+            int monitor_count = 0;
+            GLFWmonitor **monitors = glfwGetMonitors(&monitor_count);
+            if (monitor_count == 0) {
+                log_error("could not find any monitor holy fk buy a monitor dude\n");
+                exit(EXIT_FAILURE);
+            }
+
+            /* now get current monitor info */
+            GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+            int monitor_x, monitor_y;
+            int monitor_width, monitor_height;
+            glfwGetMonitorWorkarea(monitor, &monitor_x, &monitor_y, &monitor_width, &monitor_height);
+
+            /* set the position here */
+            int x = monitor_x + (monitor_width - m_win_width) / 2;
+            int y = monitor_y + (monitor_height - m_win_height) / 2;
+            glfwSetWindowPos(m_win_handle, x, y);
+
+        }
+
+
+
+        glfwMakeContextCurrent(m_win_handle);
+        glfwSwapInterval(1); // Enable V-Sync by default
+
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+            log_error("Failed to initialize GLAD OpenGL loader\n");
+            exit(EXIT_FAILURE);
+        }
     }
-}
 
-bool Window::window_should_close() {
-    if (m_win_handle == NULL) return true;
-    return glfwWindowShouldClose(m_win_handle);
-}
-
-
-void Window::window_poll_events() {
-    glfwPollEvents();
-}
-
-void Window::window_swap_buffers() {
-    glfwSwapBuffers(m_win_handle);
-}
+    bool Window::window_should_close() {
+        if (m_win_handle == NULL) return true;
+        return glfwWindowShouldClose(m_win_handle);
+    }
 
 
-void Window::close_window() {
-}
+    void Window::window_poll_events() {
+        glfwPollEvents();
+    }
 
+    void Window::window_swap_buffers() {
+        glfwSwapBuffers(m_win_handle);
+    }
+
+
+    void Window::close_window() {
+    }
 
 }
 

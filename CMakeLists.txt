@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(igi-made-in-china LANGUAGES C CXX)
+project(igi-made-in-china)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -10,6 +10,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(app
     src/main.cpp
+    src/application.cpp
     src/game.cpp
     src/window.cpp
     src/renderer.cpp
@@ -42,19 +43,3 @@ endif()
 
 target_compile_definitions(app PRIVATE DEBUG)
 
-# Format source files with clang-format.
-find_program(CLANG_FORMAT clang-format REQUIRED)
-
-set(FORMAT_SOURCES
-    ${CMAKE_SOURCE_DIR}/src/main.cpp
-    ${CMAKE_SOURCE_DIR}/src/game.cpp
-    ${CMAKE_SOURCE_DIR}/src/window.cpp
-    ${CMAKE_SOURCE_DIR}/src/renderer.cpp
-    ${CMAKE_SOURCE_DIR}/src/log.cpp
-)
-
-add_custom_target(format
-    COMMAND ${CLANG_FORMAT} -i ${FORMAT_SOURCES}
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    COMMENT "Formatting source files with clang-format"
-)

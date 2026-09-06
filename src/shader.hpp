@@ -3,25 +3,28 @@
 
 static constexpr const char *vertex_shader_source = R"(
 #version 330 core
-layout(location = 0) in vec2 aPos;
+layout (location = 0) in vec3 aPos;
+layout (location = 0) in vec4 aColor;
 
-uniform mat4 projection;
-uniform vec4 rect;
+out vec4 FragColor;
+uniform mat4 u_MVP;
 
-void main()
-{
-    vec2 pos = rect.xy + aPos * rect.zw;
-    gl_Position = projection * vec4(pos, 0.0, 1.0);
+void main() {
+    FragColor = aColor;
+    gl_Position = u_MVP * vec4(aPos, 1.0);
 }
+
+
 )";
 
 static constexpr const char *fragment_shader_source = R"(
 #version 330 core
-out vec4 FragColor;
-uniform vec4 color;
+in vec4 FragColor;
+out vec4 FinalColor;
 
-void main()
-{
-    FragColor = color;
+void main() {
+    FinalColor = FragColor;
 }
+
 )";
+

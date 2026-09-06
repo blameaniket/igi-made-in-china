@@ -15,7 +15,6 @@ typedef struct Vector2 {
 namespace Game {
 
 struct RendererContext {
-    // rectangle
     GLuint shader;
     GLuint vao, vbo;
     GLint  projection_location;
@@ -41,7 +40,8 @@ public:
     void renderer_init();
     void renderer_shutdown();
     void clear_screen(const Color &color);
-    void draw_rectangle(const RendererRectangle &rectangle);
+
+    void draw_debug_grid(int slices, float spacing);
 
 private:
     GLuint compile_shader(GLenum type, const char *src);

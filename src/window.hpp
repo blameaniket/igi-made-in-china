@@ -15,6 +15,8 @@ public:
     ~Window();
 
 public:
+    bool close;
+
     void init_window();
     void close_window();
     void window_poll_events();
@@ -23,7 +25,8 @@ public:
 
 private:
     const unsigned int m_win_width, m_win_height;
-    GLFWwindow        *m_win_handle;
+    GLFWwindow *m_win_handle;
+
 };
 
 }

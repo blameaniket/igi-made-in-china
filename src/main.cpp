@@ -1,7 +1,7 @@
 
 
-#include "game.hpp"
+#include "application.hpp"
 int main() {
-    Game::Game game;
+    Game::Application game;
     game.run();
 }
