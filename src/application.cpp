@@ -18,23 +18,30 @@
 #endif
 
 
-#include <chrono>
-#include <iostream>
-
 #include "application.hpp"
 #include "log.hpp"
 
 
 namespace Game {
 
+    static Application* s_instance = nullptr;
+
     Application::Application(const ApplicationContext &spec)
         : m_spec(spec)
         , m_renderer(spec.window_width, spec.window_height)
         , m_game()
-        , m_win_handle(nullptr) {}
+        , m_win_handle(nullptr) 
+    {
+        s_instance = this;
+    }
 
 
     Application::~Application() {
+        s_instance = nullptr;
+    }
+
+    Application& Application::Get() {
+        return *s_instance;
     }
 
     void Application::init_window() {
@@ -156,11 +163,7 @@ namespace Game {
         on_update();
         m_renderer.clear_screen(m_spec.background_color);
 
-        m_renderer.draw_triangle_3d(
-                {100.0f, 100.0f, 0.0f},
-                {300.0f, 100.0f, 0.0f},
-                {200.0f, 300.0f, 0.0f},
-                m_spec.triangle_color);
+        m_game.render();
 
         m_renderer.flush_batch();
 

@@ -142,7 +142,7 @@ namespace Game {
         Vector4 c = color_to_vec4(color);
         g_renderer_ctx.vertices[g_renderer_ctx.vertex_count++] = {
             position.x, position.y, position.z,
-            1,1,1,1
+            c.x, c.y, c.z, c.w
         };
     }
 

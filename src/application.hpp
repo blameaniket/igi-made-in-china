@@ -20,7 +20,6 @@ struct ApplicationContext {
     const unsigned int window_height = factor*9;
 
     Color background_color = hex_to_rgb("#111111");
-    Color triangle_color   = hex_to_rgb("#ffffff");
 };
 
 
@@ -41,6 +40,12 @@ private:
     void on_update();
     void on_render();
     bool window_should_close();
+
+public:
+    static Application& Get();
+    static Renderer& GetRenderer() { return Get().m_renderer; };
+    static int get_window_width() { return Get().m_spec.window_height; };
+    static int get_window_height() { return Get().m_spec.window_height; };
 
 private:
     ApplicationContext m_spec;
