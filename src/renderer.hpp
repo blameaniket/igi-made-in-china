@@ -5,26 +5,21 @@
 #include <glad/glad.h>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <cstddef>
 #include "utils.hpp"
 
 
 #define MAX_BATCH_VERTICES 24000
 
 
-typedef struct Vector2 {
-    float x, y;
-} Vector2;
 
-typedef struct Vector3 {
-    float x, y, z;
-} Vector3;
+namespace Game {
+
 
 typedef struct Vertex {
     float x, y, z;
     float r, g, b, a;
 } Vertex;
-
-namespace Game {
 
 struct RendererContext {
     GLuint shader_program;
@@ -33,7 +28,7 @@ struct RendererContext {
 
     // vertices part
     Vertex vertices[MAX_BATCH_VERTICES];
-    int    vertex_count;
+    size_t vertex_count;
 };
 
 
@@ -48,12 +43,12 @@ public:
     void clear_screen(const Color &color);
 
     void draw_triangle_3d(Vector3 v1, Vector3 v2, Vector3 v3, Color color);
+    void flush_batch();
 
 private:
     GLuint compile_shader(GLenum type, const char *src);
     GLuint create_program(const char *vertex_shader, const char *fragment_shader);
 
-    void flush_batch();
     void add_vertex(Vector3 position, Color color);
 
 private:

@@ -29,3 +29,13 @@ Color hex_to_rgb(const char *hex) {
 }
 
 
+Vector4 color_to_vec4(const Color &color) {
+    return {
+        .x = color.r,
+        .y = color.g,
+        .z = color.b,
+        .w = color.alpha,
+    };
+}
+
+

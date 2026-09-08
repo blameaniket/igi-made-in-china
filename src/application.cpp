@@ -157,10 +157,12 @@ namespace Game {
         m_renderer.clear_screen(m_spec.background_color);
 
         m_renderer.draw_triangle_3d(
-                {0,0,0}, 
-                {4,0,0}, 
-                {4,3,0}, 
+                {100.0f, 100.0f, 0.0f},
+                {300.0f, 100.0f, 0.0f},
+                {200.0f, 300.0f, 0.0f},
                 m_spec.triangle_color);
+
+        m_renderer.flush_batch();
 
         window_swap_buffers();
     }

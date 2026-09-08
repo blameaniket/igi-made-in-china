@@ -74,19 +74,75 @@ namespace Game {
 
     void Renderer::renderer_init() {
         g_renderer_ctx.vertex_count = 0;
+        g_renderer_ctx.shader_program = create_program(vertex_shader_source, fragment_shader_source);
+
+        g_renderer_ctx.mvp_loc = glGetUniformLocation(g_renderer_ctx.shader_program, "u_MVP");
+
+        glGenVertexArrays(1, &g_renderer_ctx.vao);
+        glGenBuffers(1, &g_renderer_ctx.vbo);
+
+        glBindVertexArray(g_renderer_ctx.vao);
+        glBindBuffer(GL_ARRAY_BUFFER, g_renderer_ctx.vbo);
+
+        glBufferData(
+                GL_ARRAY_BUFFER,
+                sizeof(g_renderer_ctx.vertices),
+                nullptr,
+                GL_DYNAMIC_DRAW);
+
+        // position
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, x));
+        glEnableVertexAttribArray(0);
+
+        // color
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, r));
+        glEnableVertexAttribArray(1);
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
     }
 
     void Renderer::renderer_shutdown() {
     }
 
     void Renderer::flush_batch() {
+        if (g_renderer_ctx.vertex_count == 0) return;
+
+        glUseProgram(g_renderer_ctx.shader_program);
+
+        glUniformMatrix4fv(
+                g_renderer_ctx.mvp_loc,
+                1,
+                GL_FALSE,
+                &projection[0][0]);
+
+
+        glBindVertexArray(g_renderer_ctx.vao);
+        glBindBuffer(GL_ARRAY_BUFFER, g_renderer_ctx.vbo);
+
+        glBufferSubData(
+                GL_ARRAY_BUFFER,
+                0,
+                g_renderer_ctx.vertex_count * sizeof(Vertex),
+                g_renderer_ctx.vertices);
+
+        glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(g_renderer_ctx.vertex_count));
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+
+        g_renderer_ctx.vertex_count = 0;
+
     }
 
     void Renderer::add_vertex(Vector3 position, Color color) {
+        if (g_renderer_ctx.vertex_count >= MAX_BATCH_VERTICES) 
+            flush_batch();
+
+        Vector4 c = color_to_vec4(color);
         g_renderer_ctx.vertices[g_renderer_ctx.vertex_count++] = {
             position.x, position.y, position.z,
-            color.r / 255.0f, color.g / 255.0f, 
-            color.b / 255.0f, color.alpha / 255.0f
+            1,1,1,1
         };
     }
 
