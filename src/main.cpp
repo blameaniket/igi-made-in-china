@@ -1,11 +1,8 @@
 
 
-#include <iostream>
-
+#include "game.hpp"
 int main() {
-    std::cout << "hello world" << std::endl;
+    game_run();
     return 0;
 }
-
-
 

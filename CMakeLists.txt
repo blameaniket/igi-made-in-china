@@ -9,6 +9,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(app
     src/main.cpp
+    src/game.cpp
+    src/window.cpp
+    src/renderer.cpp
+    src/log.cpp
     external/glad/src/glad.c
 )
 
