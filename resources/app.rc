@@ -1,0 +1,6 @@
+
+
+
+#include "../src/resource.h"
+IDI_APP_ICON ICON "../assets/window_logo.ico"
+

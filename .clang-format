@@ -1,0 +1,15 @@
+BasedOnStyle: WebKit
+Language: Cpp
+IndentWidth: 4
+DerivePointerAlignment: false
+PointerAlignment: Right
+BreakBeforeBraces: Attach
+AllowShortFunctionsOnASingleLine: false
+MaxEmptyLinesToKeep: 6
+KeepEmptyLines:
+  AtEndOfFile: true     
+  AtStartOfBlock: true  
+  AtStartOfFile: true   
+SortIncludes: Never
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AlignConsecutiveDeclarations: true
