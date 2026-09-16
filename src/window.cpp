@@ -38,6 +38,9 @@ static void glfw_error_callback(int error, const char *description) {
     fprintf(stderr, "[GLFW ERROR %d] %s\n", error, description);
 }
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    glViewport(0, 0, width, height);
+}
 
 void init_window() {
     g_win_ctx.window_width = WINDOW_WIDTH;
@@ -118,6 +121,7 @@ void init_window() {
     glfwSetWindowPos(g_win_ctx.window_handle, x, y);
 
     glfwMakeContextCurrent(g_win_ctx.window_handle);
+    glfwSetFramebufferSizeCallback(g_win_ctx.window_handle, framebuffer_size_callback);
     glfwSwapInterval(1);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
